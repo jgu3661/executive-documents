@@ -1,0 +1,19 @@
+
+# Environment file for HarvardKey username and password
+.env
+
+# Logs of browser sessions
+geckodriver.log
+
+# Caches
+__pycache__
+helpers/__pycache__
+
+# Desktop metadata
+.DS_Store
+
+# Miscellaneous IDE settings
+.vscode
+
+# Outputted csvs
+years/*

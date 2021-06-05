@@ -1,0 +1,3 @@
+# Places folder in repo without the output files
+*
+!.gitignore
