@@ -1,8 +1,6 @@
 # Scrape relevant info from a Proquest Congressional document page
 
-from . import constants
 import re
-from selenium.webdriver.support.ui import WebDriverWait
 
 # Used for data cleaning
 monthMapping = {
@@ -20,36 +18,36 @@ monthMapping = {
     'Dec': 12,
 }
 
-def scrapeDocumentPage(driver):
+def scrapeDocumentPage(soup):
     
-    contents = WebDriverWait(driver, constants.longTimeout).until(lambda d: 
-        d.find_element_by_class_name('docsContentRow'))
-    contentRows = contents.find_elements_by_css_selector('div.docSegRow')
+    contents = soup.find('div', class_='docsContentRow')
+    contentRows = contents.find_all('div', class_='docSegRow')
     relevantInfoRows = contentRows[:3]
     relevantInfoRows.append(contentRows[-1])
-    relevantInfoElements = [e.find_element_by_class_name('segColR') for e in relevantInfoRows]
-    relevantInfo = [e.get_attribute('innerHTML') for e in relevantInfoElements]
+    relevantInfoElements = [e.find('div', class_='segColR') for e in relevantInfoRows]
+    relevantInfo = [e.text for e in relevantInfoElements]
+    relevantInfoClean = [re.sub('<.*?em.*?>', '', e).strip() for e in relevantInfo]
 
     try: 
         row = {}
-        row["accession"] = re.sub('<.*?em.*?>', '', relevantInfo[0]).strip()
+        row["accession"] = relevantInfoClean[0]
 
-        date = re.sub('<.*?em.*?>', '', relevantInfo[2]).replace('.','')
+        date = relevantInfoClean[2].replace('.','').replace(',', '')
         dateParts = date.split()
 
         if len(dateParts) == 3:
             row["year"] = int(dateParts[2])
             row["month"] = monthMapping[dateParts[0]]
-            row["day"] = int(dateParts[1].replace(',',''))
+            row["day"] = int(dateParts[1])
         elif len(dateParts) == 1:
             row["year"] = int(dateParts[0])
         else:
             row["notes"] = f'Date field was {date}'
 
-        row["title"] = re.sub('<.*?span.*?>', '', re.sub('<.*?em.*?>', '', relevantInfo[1])).strip()
-        row["permalink"] = re.sub('<.*?em.*?>', '', relevantInfo[3]) 
+        row["title"] = re.sub('<.*?span.*?>', '', relevantInfoClean[1]).strip()
+        row["permalink"] = relevantInfoClean[3]
     
     except ValueError:
         row["notes"] = "This entry was missing some info; please check manually."
     
-    return (driver, row)
+    return row

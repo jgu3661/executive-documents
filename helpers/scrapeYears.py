@@ -8,6 +8,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from csv import DictWriter
+from bs4 import BeautifulSoup
 
 def scrapeYears(driver, start, end):
 
@@ -33,12 +34,29 @@ def scrapeYears(driver, start, end):
 
                 # Iterate through results
                 for i in range(resultsCount-1):
-                    driver, row = scrapeDocumentPage(driver)
+
+                    # Wait until page has finished loading, then switch to soup
+                    wait.until(lambda d: 
+                        d.find_element_by_class_name('docsContentRow'))
+                    soup = BeautifulSoup(driver.page_source, 'lxml')
+
+                    # Scrape relevant info to CSV
+                    row = scrapeDocumentPage(soup)
                     writer.writerow(row)
+
+                    # Move onto the next result
                     nextButton = driver.find_element_by_css_selector('span.uxf-icon.uxf-right-open-large')
                     nextButton.click()
+
+                    # Make sure the old page is gone before continuing
                     wait.until(EC.staleness_of(nextButton))
-                driver, writer = scrapeDocumentPage(driver, writer)
+
+                # Get last result
+                wait.until(lambda d: 
+                    d.find_element_by_class_name('docsContentRow'))
+                soup = BeautifulSoup(driver.page_source, 'lxml')
+                row = scrapeDocumentPage(soup)
+                writer.writerow(row)
 
             # Navigate back to search results to update filtered year
             backToResultsButton = wait.until(lambda d: 
