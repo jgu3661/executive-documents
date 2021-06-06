@@ -66,7 +66,10 @@ def scrapeYears(driver, start, end):
             
         except TimeoutException:
             print("Oops! Looks like Proquest Congressional had an unexpected error.")
-            print(f"We finished scraping through {year-1}; to continue, run the program again starting from {year}.")
+            if year == start:
+                print("Please try again.")
+            else:
+                print(f"We finished scraping through {year-1}; to continue, run the program again starting from {year}.")
             return driver
     
     return driver
