@@ -33,7 +33,8 @@ def scrapeYears(driver, start, end):
 
                 # Iterate through results
                 for i in range(resultsCount-1):
-                    driver, writer = scrapeDocumentPage(driver, writer)
+                    driver, row = scrapeDocumentPage(driver)
+                    writer.writerow(row)
                     nextButton = driver.find_element_by_css_selector('span.uxf-icon.uxf-right-open-large')
                     nextButton.click()
                     wait.until(EC.staleness_of(nextButton))
