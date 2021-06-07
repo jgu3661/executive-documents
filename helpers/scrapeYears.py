@@ -52,7 +52,7 @@ def scrapeYears(driver, start, end, advancedSearchUrl, skipTo=0):
 
             # Iterate through results
             for i in range(resultsCount-skipTo):
-
+                print(f'{year}, {skipTo+i}')
                 # Wait until page has finished loading, then switch to soup
                 wait.until(lambda d: 
                     d.find_element_by_class_name('docsContentRow'))
@@ -90,16 +90,10 @@ def scrapeYears(driver, start, end, advancedSearchUrl, skipTo=0):
                 driver.find_element_by_css_selector('h2[title="GIS System Error"]')
 
                 # If it is, run scrapeYears again, skipping to the result we left off on
-                scrapeYears(driver, year, end, advancedSearchUrl, skipTo=i+skipTo)
+                return scrapeYears(driver, year, end, advancedSearchUrl, skipTo=i+skipTo)
             
             # If it's not, I have no idea what happened. 
             except NoSuchElementException as err:
-                print("Oops! Looks like Proquest Congressional had an unexpected error.")
-                if skipTo == 0 and year != start:
-                    print(f"We finished scraping through {year-1}; to continue, run the program again starting from {year}.")
-                else:
-                    print("Please try again.")
-                
-                return driver
+                return driver, year, err
     
-    return driver
+    return driver, -1, None

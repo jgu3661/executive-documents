@@ -36,8 +36,16 @@ def main():
 
     # Scrape through desired years
     advancedSearchUrl = driver.current_url
-    driver = scrapeYears(driver, startYear, endYear, advancedSearchUrl)
+    driver, year, err = scrapeYears(driver, startYear, endYear, advancedSearchUrl)
 
+    # Print error messages, if there are any
+    if year != -1:
+        print("Oops! Looks like Proquest Congressional had an unexpected error.")
+        if year != startYear:
+            print(f"We finished scraping through {year-1}; to continue, run the program again starting from {year}.")
+        else:
+            print("Please try again.")
+            
     # Close the driver
     driver.close()
 
