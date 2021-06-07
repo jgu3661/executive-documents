@@ -36,7 +36,10 @@ def main():
 
     # Scrape through desired years
     advancedSearchUrl = driver.current_url
-    scrapeYears(driver, startYear, endYear, advancedSearchUrl)
+    driver = scrapeYears(driver, startYear, endYear, advancedSearchUrl)
+
+    # Close the driver
+    driver.close()
 
 
 

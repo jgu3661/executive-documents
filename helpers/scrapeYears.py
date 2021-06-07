@@ -102,10 +102,6 @@ def scrapeYears(driver, start, end, advancedSearchUrl, skipTo=0):
                 else:
                     print("Please try again.")
                 
-                # Close driver session
-                driver.close()
-                return
+                return driver
     
-    # Close driver session
-    driver.close()
-    return
+    return driver
