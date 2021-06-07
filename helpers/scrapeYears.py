@@ -15,16 +15,16 @@ from bs4 import BeautifulSoup
 def scrapeYears(driver, start, end, advancedSearchUrl, skipTo=0):
 
     wait = WebDriverWait(driver, constants.longTimeout)
-    print('check 1')
+
     # Reset to Advanced Search page
     driver.get(advancedSearchUrl)
-    print('check 2')
+
     # Enter search, then filter results accordingly
     driver = presidentialSearchAndFilter(driver)
-    print('check 3')
+
     # Sort chronologically
     driver = sortOldestFirst(driver)
-    print('check 4')
+
     for year in range(start, end+1): 
 
         try:
@@ -52,7 +52,7 @@ def scrapeYears(driver, start, end, advancedSearchUrl, skipTo=0):
 
             # Iterate through results
             for i in range(resultsCount-skipTo):
-                print(i+skipTo)
+
                 # Wait until page has finished loading, then switch to soup
                 wait.until(lambda d: 
                     d.find_element_by_class_name('docsContentRow'))
@@ -90,13 +90,11 @@ def scrapeYears(driver, start, end, advancedSearchUrl, skipTo=0):
                 driver.find_element_by_css_selector('h2[title="GIS System Error"]')
 
                 # If it is, run scrapeYears again, skipping to the result we left off on
-                print(f"YOOOO IT HAPPENED AT RESULT {skipTo+i+1}\n")
                 scrapeYears(driver, year, end, advancedSearchUrl, skipTo=i+skipTo)
             
             # If it's not, I have no idea what happened. 
             except NoSuchElementException as err:
                 print("Oops! Looks like Proquest Congressional had an unexpected error.")
-                print(f"Error: {err}")
                 if skipTo == 0 and year != start:
                     print(f"We finished scraping through {year-1}; to continue, run the program again starting from {year}.")
                 else:
