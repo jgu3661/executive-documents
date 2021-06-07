@@ -1,22 +1,7 @@
 # Scrape relevant info from a Proquest Congressional document page
 
 import re
-
-# Used for data cleaning
-monthMapping = {
-    'Jan': 1,
-    'Feb': 2,
-    'Mar': 3, 
-    'Apr': 4,
-    'May' : 5,
-    'June': 6,
-    'July': 7,
-    'Aug': 8,
-    'Sept': 9,
-    'Oct': 10,
-    'Nov': 11,
-    'Dec': 12,
-}
+from .constants import monthMapping
 
 def scrapeDocumentPage(soup):
     
@@ -43,6 +28,7 @@ def scrapeDocumentPage(soup):
             row["year"] = int(dateParts[0])
         else:
             row["notes"] = f'Date field was {date}'
+        
 
         row["title"] = re.sub('<.*?span.*?>', '', relevantInfoClean[1]).strip()
         row["permalink"] = relevantInfoClean[3]

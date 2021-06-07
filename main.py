@@ -1,15 +1,15 @@
 # Construct database of executive documents using Proquest Congressional
 
 # Import helpers
+import helpers.constants as constants
 from helpers.getInput import getInput
 from helpers.harvardKey2fa import harvardKey2fa
-from helpers.presidentialSearchAndFilter import presidentialSearchAndFilter
-from helpers.sortOldestFirst import sortOldestFirst
 from helpers.scrapeYears import scrapeYears
 
 # Import web driver
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.support.wait import WebDriverWait
 
 # Import web driver path
 import os 
@@ -31,18 +31,12 @@ def main():
     # Go to Proquest Congressional
     proquestCongressionalUrl = 'http://nrs.harvard.edu/urn-3:hul.eresource:conguniv'
     driver = harvardKey2fa(driver, proquestCongressionalUrl)
-
-    # Enter search, then filter results accordingly
-    driver = presidentialSearchAndFilter(driver)
-
-    # Sort chronologically
-    driver = sortOldestFirst(driver)
+    WebDriverWait(driver, constants.longTimeout).until(lambda d:
+        d.find_element_by_id("selectAll_Adv"))
 
     # Scrape through desired years
-    driver = scrapeYears(driver, startYear, endYear)
-
-    # Close driver session
-    driver.close()
+    advancedSearchUrl = driver.current_url
+    scrapeYears(driver, startYear, endYear, advancedSearchUrl)
 
 
 

@@ -15,5 +15,9 @@ helpers/__pycache__
 # Miscellaneous IDE settings
 .vscode
 
+# Virtual environment
+Pipfile
+Pipfile.lock
+
 # Outputted csvs
 years/*

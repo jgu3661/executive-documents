@@ -39,11 +39,12 @@ def presidentialSearchAndFilter(driver):
     ]
 
     for excludeString in excludeButtons:
-        wait.until(lambda d: 
-            d.find_element_by_css_selector(f"label[for='{excludeString}']")).click()
+        excludeButton = wait.until(lambda d: 
+            d.find_element_by_css_selector(f"label[for='{excludeString}']"))
+        driver.execute_script("arguments[0].click();", excludeButton)
 
     applyFiltersButton = driver.find_element_by_xpath('/html/body/div[18]/div/div/div[3]/div/div[2]/button')
-    applyFiltersButton.click()
+    driver.execute_script("arguments[0].click();", applyFiltersButton)
     time.sleep(constants.shortTimeout) # Wait for filters menu to fade out
 
     return driver
