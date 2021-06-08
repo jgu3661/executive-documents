@@ -13,6 +13,7 @@ monthMapping = {
     'February': 2,
     'Mar': 3, 
     'March': 3,
+    'Ap': 4, # One typo in 2016-PR-9431 :(
     'Apr': 4,
     'April': 4,
     'May' : 5,
