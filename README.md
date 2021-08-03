@@ -8,7 +8,7 @@
 
 This code was written as part of research for [Professor Jon Rogowski](https://voices.uchicago.edu/jrogowski/)'s project on Unilateral Action and the Presidency. The aim is to better understand variation in how Presidents have leveraged the powers of the Executive Office over time. Part of this involves putting together a database of Presidential documents and manually inputting certain qualitative characteristics for each. We access these documents using Harvard's access to ProQuest Congressional. 
 
-However, over the first few months of the project, more than half of our time was spent inputting identifying information about the documents that was already available in Proquest Congressional and required no subjective coding - title, date, permalink, etc. This code automates the gathering of these characteristics, scraping from our 76,000+ search results in ProQuest Congressional and outputting the relevant characteristics as CSVs separated by year from 1789 to 2021. 
+However, over the first few months of the project, more than half of our time was spent inputting identifying information about the documents that required no subjective coding - title, date, permalink, etc. This code automates the gathering of these characteristics, scraping from our 76,000+ search results in ProQuest Congressional and outputting the relevant characteristics as CSVs separated by year from 1789 to 2021. 
 
 ## Setup and Usage
 
