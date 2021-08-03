@@ -1,6 +1,7 @@
 # executive-documents
 
 [Last updated August 3rd, 2021]
+
 [Copyright © 2021 jgu3661]
 
 ## Description 
