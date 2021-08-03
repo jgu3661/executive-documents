@@ -3,7 +3,7 @@
 def getInput():
     while True:
         try:
-            startYear = int(input('Enter start year (earlist documents are from 1789): ').strip())
+            startYear = int(input('Enter start year (earliest documents are from 1789): ').strip())
             break
         except ValueError:
             print("That's not a number!")

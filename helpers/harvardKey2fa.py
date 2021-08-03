@@ -1,7 +1,6 @@
 # Access URL protected with HarvardKey two-factor authentication
 
 from . import constants
-import time 
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -33,13 +32,8 @@ def harvardKey2fa(driver, url):
     loginPassword.send_keys(Keys.RETURN)
 
     # Authenticate with 2FA
-    duoIframe = wait.until(lambda d:
-        d.find_element_by_id("duo_iframe"))
-    driver.switch_to.frame(duoIframe)
-    time.sleep(constants.shortTimeout) # Clicking instantly causes Duo Mobile to fail the authentication
-    duoPushButton = wait.until(lambda d:
-        d.find_element_by_css_selector('button.positive.auth-button'))
-    driver.execute_script("arguments[0].click();", duoPushButton)
-    driver.switch_to.default_content()
+    successButton = wait.until(lambda d:
+        d.find_element_by_xpath('/html/body/div/div[1]/section/section/main/form/button'))
+    driver.execute_script("arguments[0].click();", successButton)
     
     return driver
