@@ -2,8 +2,6 @@
 
 [Last updated August 3rd, 2021]
 
-[Copyright © 2021 jgu3661]
-
 ## Description 
 
 This code was written as part of research for [Professor Jon Rogowski](https://voices.uchicago.edu/jrogowski/)'s project on Unilateral Action and the Presidency. The aim is to better understand variation in how Presidents have leveraged the powers of the Executive Office over time. Part of this involves putting together a database of Presidential documents and manually inputting certain qualitative characteristics for each. We access these documents using Harvard's access to ProQuest Congressional. 
